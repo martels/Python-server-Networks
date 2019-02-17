@@ -6,18 +6,19 @@ def solve_maths(msg):
     answer = 0
 
     num01,op,num02 = msg.split(" ")
-    num1 = num01.strip()
-    num2 = num02.strip()
-    op = operator.strip()
+    num1 = int(num01.strip())
+    num2 = int(num02.strip())
+    operator = op.strip()
     
     if operator == '+':
         answer = num1 + num2
     if operator == '-':
-        answer = num1 + num2
+        answer = num1 - num2
     if operator == '*':
-        answer = num1 + num2
+        answer = num1 * num2
     if operator == '/':
-        answer = num1 + num2
+        answer = num1 / num2
+    answer = str(answer)
     return answer
     
 
@@ -31,14 +32,7 @@ endHello = False
 
 NUID = raw_input('Input NU ID (include all leading zeros): ')
 Hello = "ece2540 HELLO " + NUID
-while endHello == False:
-    clientSocket.send(Hello.encode('utf-8'))
-    message = clientSocket.recv(buffmax)
-    demessage = message.decode('utf-8')
-    print demessage
-    ece2540,code,payload = demessage.split(" ", 2)
-    if code == 'STATUS':
-        break
+clientSocket.send(Hello.encode('utf-8'))
     
 while endStatus == False:
     
@@ -46,11 +40,13 @@ while endStatus == False:
     demessage = message.decode('utf-8')
     print demessage
     ece2540,code,payload = demessage.split(" ", 2)
-    print "the split is:" + ece2540 + ", " + code + ", " + payload
-    print "the strip is:" + ece2540.strip() + ", " + code.strip() + ", " + payload.strip()
+    # print "the split is:" + ece2540 + ", " + code + ", " + payload
+    # print "the strip is:" + ece2540.strip() + ", " + code.strip() + ", " + payload.strip()
 
     if code == 'STATUS':
         ans = solve_maths(payload)
+        print ans
+        print " "
         clientSocket.send(ans.encode('utf-8'))
 
     if code == 'ERROR':
